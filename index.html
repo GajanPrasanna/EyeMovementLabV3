@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#10243a">
+<title>Eye Movement Lab V3 — Dual Device</title>
+<style>
+:root{--bg:#07111c;--panel:#112236;--panel2:#172d43;--text:#f0f6fc;--muted:#a9bbcc;--blue:#39a7ff;--red:#ff4545;--cyan:#38ddf5;--green:#68e49a;--amber:#ffd166;--border:#2a4560}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}button,input,select{font:inherit}button{border:0;border-radius:10px;padding:11px 14px;background:var(--blue);color:#041422;font-weight:750;cursor:pointer}button.secondary{background:#29445f;color:var(--text)}button.danger{background:#a8303d;color:white}button:disabled{opacity:.48;cursor:not-allowed}a{color:#76c3ff}h1,h2,h3,p{margin-top:0}h1{font-size:clamp(1.3rem,3vw,2rem);margin-bottom:5px}h2{font-size:1.15rem;margin-bottom:9px}p{line-height:1.45}.muted{color:var(--muted)}.small{font-size:.85rem}.card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:15px;margin:12px 0}.row{display:flex;gap:9px;flex-wrap:wrap;align-items:center}.row>*{max-width:100%}.stack{display:grid;gap:10px}.pill{display:inline-block;padding:4px 9px;border-radius:999px;background:#203a54;font-size:.8rem;color:#d8ebfa}.ok{color:var(--green)}.warn{color:var(--amber)}.error{color:#ff9aa4}.field{display:grid;gap:5px;min-width:0}.field label{font-size:.88rem;color:var(--muted)}input[type=text],select{width:100%;background:#071522;border:1px solid var(--border);border-radius:9px;padding:10px;color:var(--text)}input[type=range]{width:100%}.hidden{display:none!important}.app-header{padding:14px clamp(12px,3vw,26px);background:#0d1d2e;border-bottom:1px solid var(--border);display:flex;gap:14px;align-items:center;justify-content:space-between}.app-header .brand{min-width:0}.app-header p{margin:0}.screen{padding:clamp(10px,2vw,22px);max-width:1100px;margin:0 auto}.home-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:12px;margin-top:18px}.mode-card{padding:22px;border:1px solid var(--border);background:var(--panel);border-radius:16px}.mode-card h2{font-size:1.25rem}.big-button{display:block;text-decoration:none;text-align:center;border-radius:12px;padding:14px;background:var(--blue);color:#041422;font-weight:800;margin-top:12px}.disclaimer{border-left:4px solid var(--amber);padding:10px 12px;background:#241f16;border-radius:6px;color:#ffefc2;font-size:.9rem}.status{padding:8px 10px;border-radius:9px;background:#081722;border:1px solid var(--border);min-height:38px;font-size:.91rem;overflow-wrap:anywhere}.target-stage{position:relative;background:#02060a;border:1px solid #334a60;border-radius:12px;overflow:hidden;height:min(64vh,700px);min-height:340px;touch-action:manipulation}.target-stage.full{height:calc(100dvh - 145px);min-height:320px;border-radius:0}.target{position:absolute;width:26px;height:26px;border-radius:50%;background:var(--red);border:3px solid white;box-shadow:0 0 16px #ff4a4aaa;transform:translate(-50%,-50%);left:50%;top:50%;z-index:3;transition:left .22s linear,top .22s linear}.estimate{position:absolute;width:19px;height:19px;border-radius:50%;border:3px solid var(--cyan);box-shadow:0 0 10px #38ddf5aa;transform:translate(-50%,-50%);left:50%;top:50%;z-index:2;pointer-events:none}.stage-label{position:absolute;z-index:4;left:10px;top:10px;padding:5px 8px;border-radius:7px;background:#07111cce;font-size:.82rem}.stage-legend{display:flex;gap:12px;flex-wrap:wrap;font-size:.82rem;color:var(--muted);margin-top:7px}.dotlegend{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px}.codebox{font:700 1rem ui-monospace,monospace;letter-spacing:.04em;overflow-wrap:anywhere;background:#06131e;border:1px dashed #48708f;padding:10px;border-radius:9px}.metric-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:8px}.metric{padding:11px;border:1px solid var(--border);border-radius:10px;background:#091824}.metric strong{display:block;font-size:1.2rem;margin-top:4px}.report-table{width:100%;border-collapse:collapse;font-size:.9rem}.report-table th,.report-table td{padding:9px;text-align:left;border-bottom:1px solid var(--border)}.report-table th{color:var(--muted)}#phoneScreen{max-width:900px}.video-wrap{position:relative;width:100%;background:#000;border:1px solid var(--border);border-radius:12px;overflow:hidden;min-height:180px;display:flex;align-items:center;justify-content:center}#cameraVideo{display:block;width:100%;height:auto;object-fit:contain;background:#000}#cameraOverlay{position:absolute;inset:0;width:100%;height:100%;touch-action:none}#cameraPlaceholder{padding:45px 20px;text-align:center;color:var(--muted)}.video-note{font-size:.82rem;color:var(--muted);margin-top:7px}.range-row{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}.roi-help{font-size:.86rem;color:var(--amber)}.footer{color:var(--muted);font-size:.8rem;padding:20px 12px;text-align:center}.calibar{height:7px;border-radius:99px;background:#263d52;overflow:hidden;margin:10px 0}.calibar>span{display:block;height:100%;width:0;background:var(--green);transition:width .2s}.report-note{padding:11px;background:#091925;border:1px solid var(--border);border-radius:9px;color:var(--muted);font-size:.88rem}
+@media(max-width:600px){.app-header{align-items:flex-start}.target-stage{height:55vh;min-height:310px}.target-stage.full{height:calc(100dvh - 190px)}.card{padding:12px}.app-header .pill{display:none}.report-table{font-size:.8rem}.report-table th,.report-table td{padding:7px 5px}}
+</style>
+</head>
+<body>
+<div id="homeScreen">
+  <header class="app-header"><div class="brand"><h1>Eye Movement Lab V3</h1><p class="muted">Dual-device educational eye-tracking prototype</p></div><span class="pill">V3.0 prototype</span></header>
+  <main class="screen">
+    <div class="card"><h2>Choose this device's role</h2><p class="muted">Use the tablet for the target and report. Use the phone for the rear-camera eye view. Open this same website on both devices.</p><div class="disclaimer"><strong>Educational prototype only.</strong> This software estimates a pupil-position signal from camera images. It is not a validated medical device and cannot diagnose cranial nerve palsy or an eye-muscle defect.</div></div>
+    <div class="home-grid">
+      <div class="mode-card"><h2>Tablet — Examination</h2><p class="muted">Displays the target, receives measurements, runs calibration and shows the report for each eye.</p><a class="big-button" id="tabletLink" href="?mode=tablet">Open tablet interface</a></div>
+      <div class="mode-card"><h2>Phone — Eye camera</h2><p class="muted">Uses the phone camera, lets you select the eye region, visualises pupil tracking and sends measurements to the tablet.</p><a class="big-button" id="phoneLink" href="?mode=phone">Open phone camera interface</a></div>
+    </div>
+    <div class="card"><h2>Recommended physical setup</h2><p>Place the phone securely near the eye being examined, and place the tablet farther away in the participant's line of sight. Confirm that the camera can focus sharply before testing. Many phone cameras cannot focus at 5–10 cm; move the phone farther away if the eye is blurry. Keep the camera still and use even lighting.</p><p class="small muted">This build uses image-processing to track a dark pupil-like region inside a manually selected eye region. It is a prototype signal, not validated gaze estimation.</p></div>
+  </main><div class="footer">Video stays in the phone browser in this source code. Only tracking values and examination events are sent to the tablet.</div>
+</div>
+
+<div id="tabletScreen" class="hidden">
+  <header class="app-header"><div class="brand"><h1>Eye Movement Examination</h1><p class="muted">Tablet interface · target and report</p></div><a href="?" class="pill">Home</a></header>
+  <main class="screen">
+    <div class="card">
+      <h2>1. Connect the phone camera</h2>
+      <p class="muted small">Keep both devices connected to your phone's hotspot. Open the Phone interface on the camera device and enter this tablet connection code.</p>
+      <div class="row"><div style="flex:1;min-width:210px"><div class="small muted">Tablet connection code</div><div id="peerId" class="codebox">Connecting to relay…</div></div><button id="copyPeerBtn" class="secondary" type="button">Copy code</button></div>
+      <div id="tabletConnectionStatus" class="status" style="margin-top:10px">Starting connection service…</div>
+      <div class="small muted" style="margin-top:8px">If the code does not appear, check internet access. The app uses a public PeerJS signalling service for this prototype.</div>
+    </div>
+    <div class="card">
+      <h2>2. Run the two eye rounds</h2>
+      <p class="muted small">Connect the phone, select the first eye, then run calibration and tracking. Repeat for the other eye. Keep the same phone position and lighting for each round.</p>
+      <div class="row"><button id="leftRoundBtn" disabled>Calibrate + test LEFT eye</button><button id="rightRoundBtn" disabled>Calibrate + test RIGHT eye</button><button id="stopTestBtn" class="danger" disabled>Stop</button></div>
+      <div class="calibar"><span id="progressBar"></span></div><div id="examStatus" class="status" aria-live="polite">Waiting for phone camera to connect.</div>
+    </div>
+    <div class="card">
+      <h2>3. Live target and estimated gaze</h2>
+      <div id="targetStage" class="target-stage"><div id="stageLabel" class="stage-label">Waiting to start</div><div id="targetDot" class="target"></div><div id="estimatedDot" class="estimate" title="Estimated gaze position"></div></div>
+      <div class="stage-legend"><span><i class="dotlegend" style="background:var(--red)"></i>Red: displayed target</span><span><i class="dotlegend" style="background:var(--cyan)"></i>Cyan: estimated target-relative gaze (after calibration)</span></div>
+    </div>
+    <div class="card">
+      <h2>4. Results</h2>
+      <div class="metric-grid"><div class="metric"><span class="small muted">Active eye</span><strong id="activeEyeMetric">—</strong></div><div class="metric"><span class="small muted">Live pupil signal</span><strong id="liveSignalMetric">Waiting</strong></div><div class="metric"><span class="small muted">Received samples</span><strong id="receivedMetric">0</strong></div></div>
+      <div style="overflow-x:auto;margin-top:12px"><table class="report-table"><thead><tr><th>Round</th><th>Calibration error</th><th>Tracking error</th><th>Valid samples</th><th>Status</th></tr></thead><tbody id="reportRows"><tr><td colspan="5" class="muted">No rounds completed yet.</td></tr></tbody></table></div>
+      <div class="report-note" style="margin-top:12px">Interpretation: these are experimental camera-tracking measurements only. Errors can arise from blur, lighting, ROI selection, pupil-detection mistakes, camera movement, network delay, and calibration. Do not interpret the report as a diagnosis or as proof that a cranial nerve is normal or abnormal.</div>
+    </div>
+  </main><div class="footer">Keep the phone camera stationary during each round. Refreshing the page resets the in-memory results.</div>
+</div>
+
+<div id="phoneScreen" class="hidden">
+  <header class="app-header"><div class="brand"><h1>Eye Tracking Camera</h1><p class="muted">Phone interface · rear camera and pupil proxy</p></div><a href="?" class="pill">Home</a></header>
+  <main class="screen" id="phoneMain">
+    <div class="card">
+      <h2>1. Connect to the tablet</h2>
+      <p class="muted small">Enter the connection code shown on the tablet. Both devices need internet access during connection setup and should be on the same phone hotspot.</p>
+      <div class="field"><label for="tabletCodeInput">Tablet connection code</label><input id="tabletCodeInput" type="text" autocomplete="off" autocapitalize="none" placeholder="Paste tablet code here"></div>
+      <div class="row" style="margin-top:9px"><button id="connectPhoneBtn">Connect to tablet</button><button id="disconnectPhoneBtn" class="secondary" disabled>Disconnect</button></div>
+      <div id="phoneConnectionStatus" class="status" style="margin-top:10px">Not connected.</div>
+      <div id="remoteRoundStatus" class="small muted" style="margin-top:7px">Waiting for examination instructions.</div>
+    </div>
+    <div class="card">
+      <h2>2. Start the rear camera</h2>
+      <p class="muted small">Frame one eye clearly. If the eye is blurry at 5–10 cm, move the phone farther away until the pupil is sharp. Do not use digital zoom.</p>
+      <div class="field"><label for="cameraSelect">Available camera</label><select id="cameraSelect"><option value="">Automatic rear camera selection</option></select></div>
+      <div class="row" style="margin-top:9px"><button id="startCameraBtn">Start camera</button><button id="stopCameraBtn" class="secondary" disabled>Stop camera</button></div>
+      <div id="cameraStatus" class="status" style="margin-top:10px">Camera not started.</div>
+      <div class="video-wrap" style="margin-top:10px" id="videoWrap"><video id="cameraVideo" autoplay muted playsinline></video><canvas id="cameraOverlay"></canvas><div id="cameraPlaceholder">Start the camera to view the eye.</div></div>
+      <div class="video-note">Drag on the image to draw a box around the pupil/iris. Keep the box around the eye area and avoid including eyebrows or a large section of skin. The box is local to this browser.</div>
+      <p class="roi-help" style="margin:8px 0 0">If the crosshair jumps to eyelashes or skin, redraw the region around the pupil/iris and adjust the sensitivity.</p>
+      <div class="range-row" style="margin-top:12px"><div class="field"><label for="thresholdSlider">Dark-pixel threshold (higher = more pixels selected)</label><input id="thresholdSlider" type="range" min="15" max="100" value="42"></div><strong id="thresholdValue">42</strong></div>
+      <div class="range-row" style="margin-top:10px"><div class="field"><label for="processingSlider">Tracking rate</label><input id="processingSlider" type="range" min="100" max="300" step="25" value="150"></div><strong id="processingValue">150 ms</strong></div>
+    </div>
+    <div class="card">
+      <h2>3. Tracking status</h2>
+      <div class="metric-grid"><div class="metric"><span class="small muted">Selected eye</span><strong id="phoneEyeMetric">Not set</strong></div><div class="metric"><span class="small muted">Pupil detected</span><strong id="pupilStatusMetric">No</strong></div><div class="metric"><span class="small muted">Detection score*</span><strong id="qualityMetric">—</strong></div></div>
+      <p class="small muted" style="margin-top:10px">*The detection score is an image-processing heuristic, not a clinical confidence score. Eye/iris tracking may fail with blur, reflections, dark irises, lashes, or low contrast.</p>
+    </div>
+  </main><div class="footer">The camera image is processed locally by this page. This project sends only normalised pupil-position estimates, detection scores, and task events to the tablet.</div>
+</div>
+
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script>
+(() => {
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const params = new URLSearchParams(location.search);
+  const mode = params.get('mode') || 'home';
+  const urlNoQuery = location.href.split('?')[0].split('#')[0];
+  $('tabletLink').href = urlNoQuery + '?mode=tablet';
+  $('phoneLink').href = urlNoQuery + '?mode=phone';
+  $('homeScreen').classList.toggle('hidden', mode !== 'home');
+  $('tabletScreen').classList.toggle('hidden', mode !== 'tablet');
+  $('phoneScreen').classList.toggle('hidden', mode !== 'phone');
+  if (mode === 'tablet') initTablet();
+  if (mode === 'phone') initPhone();
+
+  const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+  const clamp = (v,lo,hi) => Math.max(lo,Math.min(hi,v));
+  const mean = a => a.length ? a.reduce((s,v)=>s+v,0)/a.length : NaN;
+  function safeSend(conn,obj){ try { if(conn && conn.open) conn.send(obj); } catch(e){} }
+
+  // --------------------------- TABLET / EXAM ---------------------------
+  function initTablet(){
+    if (!window.Peer) { $('tabletConnectionStatus').textContent = 'Connection library did not load. Check internet and refresh.'; return; }
+    const stage = $('targetStage'), target = $('targetDot'), estimate = $('estimatedDot');
+    let peer = null, conn = null, activeEye = null, phase = 'idle', collecting = null, stopped = false;
+    let lastGaze = null, recentSamples = [], calibrationModels = {left:null,right:null}, reports={left:null,right:null};
+    let totalReceived = 0, taskRunId = 0, currentTarget = {x:.5,y:.5,name:'Centre'};
+    const calibrationPoints = [
+      {x:.12,y:.12,name:'Upper left'}, {x:.50,y:.12,name:'Upper centre'}, {x:.88,y:.12,name:'Upper right'},
+      {x:.12,y:.50,name:'Middle left'}, {x:.50,y:.50,name:'Centre'}, {x:.88,y:.50,name:'Middle right'},
+      {x:.12,y:.88,name:'Lower left'}, {x:.50,y:.88,name:'Lower centre'}, {x:.88,y:.88,name:'Lower right'}
+    ];
+    const testPoints = [
+      {x:.50,y:.50,name:'Centre'}, {x:.84,y:.50,name:'Right'}, {x:.50,y:.50,name:'Centre'},
+      {x:.16,y:.50,name:'Left'}, {x:.50,y:.50,name:'Centre'}, {x:.50,y:.16,name:'Up'},
+      {x:.50,y:.50,name:'Centre'}, {x:.50,y:.84,name:'Down'}, {x:.50,y:.50,name:'Centre'},
+      {x:.76,y:.25,name:'Upper right'}, {x:.24,y:.25,name:'Upper left'},
+      {x:.24,y:.75,name:'Lower left'}, {x:.76,y:.75,name:'Lower right'}, {x:.50,y:.50,name:'Centre'}
+    ];
+
+    function setStatus(text, cls=''){ const el=$('examStatus'); el.className='status '+cls; el.textContent=text; }
+    function updateControls(connected, busy=false){
+      $('leftRoundBtn').disabled = !connected || busy;
+      $('rightRoundBtn').disabled = !connected || busy;
+      $('stopTestBtn').disabled = !busy;
+    }
+    function showTarget(p,label, smooth=true){
+      currentTarget={x:p.x,y:p.y,name:p.name||label||''};
+      target.style.transition = smooth ? 'left .22s linear,top .22s linear' : 'none';
+      target.style.left=(p.x*100)+'%'; target.style.top=(p.y*100)+'%';
+      $('stageLabel').textContent=label || p.name || 'Target';
+      safeSend(conn,{type:'target',x:p.x,y:p.y,label:label||p.name||'',phase});
+    }
+    function setEstimate(x,y,visible=true){
+      estimate.style.display=visible?'block':'none';
+      if(visible && Number.isFinite(x) && Number.isFinite(y)){
+        estimate.style.left=(clamp(x,0,1)*100)+'%'; estimate.style.top=(clamp(y,0,1)*100)+'%';
+      }
+    }
+    function makeStatusRow(){
+      const rows=[];
+      for(const eye of ['left','right']){
+        const r=reports[eye]; if(!r) continue;
+        rows.push(`<tr><td>${eye==='left'?'Left':'Right'}</td><td>${fmt(r.calibrationError)}</td><td>${fmt(r.trackingError)}</td><td>${r.validSamples}</td><td>${r.status}</td></tr>`);
+      }
+      $('reportRows').innerHTML=rows.length?rows.join(''):'<tr><td colspan="5" class="muted">No rounds completed yet.</td></tr>';
+    }
+    function fmt(v){ return Number.isFinite(v) ? v.toFixed(1)+'% diagonal' : 'Not available'; }
+    function screenDiag(){return Math.hypot(stage.clientWidth||1,stage.clientHeight||1);}
+    function errorPct(x1,y1,x2,y2){
+      const dx=(x1-x2)*(stage.clientWidth||1), dy=(y1-y2)*(stage.clientHeight||1);
+      return Math.hypot(dx,dy)/screenDiag()*100;
+    }
+    function onPhoneData(msg){
+      if(!msg || typeof msg!=='object') return;
+      if(msg.type==='phone-status'){
+        if(msg.status==='camera-on') setStatus('Phone camera is running. Select an eye region on the phone and connect it before testing.');
+        if(msg.status==='camera-off') setStatus('Phone camera stopped.');
+        if(msg.status==='roi-set') setStatus('Eye region set on phone. Confirm the pupil crosshair is stable before testing.');
+        return;
+      }
+      if(msg.type==='gaze'){
+        totalReceived++; $('receivedMetric').textContent=String(totalReceived);
+        $('liveSignalMetric').textContent=msg.valid?'Detected':'No pupil';
+        if(msg.valid && Number.isFinite(msg.x) && Number.isFinite(msg.y)){
+          lastGaze={x:msg.x,y:msg.y,score:msg.score||0,eye:msg.eye||activeEye,received:performance.now()};
+          recentSamples.push({...lastGaze});
+          if(recentSamples.length>120) recentSamples.splice(0,recentSamples.length-120);
+          if(collecting && collecting.runId===taskRunId && lastGaze.received>=collecting.after){
+            collecting.samples.push({x:lastGaze.x,y:lastGaze.y,score:lastGaze.score,targetX:collecting.target.x,targetY:collecting.target.y});
+          }
+          const model=activeEye?calibrationModels[activeEye]:null;
+          if(model && (phase==='test'||phase==='complete')){
+            const pred=predict(model,lastGaze.x,lastGaze.y);
+            setEstimate(pred.x,pred.y,true);
+            if(phase==='test' && collecting && collecting.type==='test' && collecting.runId===taskRunId){
+              collecting.errors.push(errorPct(pred.x,pred.y,collecting.target.x,collecting.target.y));
+            }
+          }
+        }
+        return;
+      }
+      if(msg.type==='round-stopped'){ stopCurrent(false); }
+    }
+    function attachConnection(c){
+      if(conn && conn!==c){try{conn.close()}catch(e){}}
+      conn=c;
+      c.on('open',()=>{
+        $('tabletConnectionStatus').textContent='Phone connected. Ready to examine.';
+        $('tabletConnectionStatus').className='status ok';
+        updateControls(true,phase==='calibrating'||phase==='test');
+        safeSend(conn,{type:'tablet-ready',message:'Connected. Wait for the tablet to start a round.'});
+      });
+      c.on('data',onPhoneData);
+      c.on('close',()=>{if(conn===c){conn=null;setStatus('Phone disconnected. Reconnect from the phone camera page.','warn');$('tabletConnectionStatus').textContent='Phone disconnected.';$('tabletConnectionStatus').className='status warn';updateControls(false,false);}});
+      c.on('error',e=>{console.error(e);setStatus('Connection error. Reconnect both devices.','error');});
+    }
+    try{
+      peer=new Peer();
+      peer.on('open',id=>{ $('peerId').textContent=id; $('tabletConnectionStatus').textContent='Connection service ready. Enter this code on the phone.'; $('tabletConnectionStatus').className='status ok'; });
+      peer.on('connection',attachConnection);
+      peer.on('error',e=>{console.error(e);$('tabletConnectionStatus').textContent='Connection error: '+(e.type||e.message||'unknown')+'. Check internet and reload.';$('tabletConnectionStatus').className='status error';});
+    }catch(e){$('tabletConnectionStatus').textContent='Could not start connection service: '+e.message;}
+    $('copyPeerBtn').addEventListener('click',async()=>{try{await navigator.clipboard.writeText($('peerId').textContent);$('copyPeerBtn').textContent='Copied';setTimeout(()=>$('copyPeerBtn').textContent='Copy code',1000)}catch(e){setStatus('Select and copy the connection code manually.');}});
+    $('leftRoundBtn').addEventListener('click',()=>runRound('left'));
+    $('rightRoundBtn').addEventListener('click',()=>runRound('right'));
+    $('stopTestBtn').addEventListener('click',()=>stopCurrent(true));
+
+    function fitAffine(samples){
+      if(samples.length<6) return null;
+      // Least squares for targetX/targetY = a*x + b*y + c.
+      const ata=[[0,0,0],[0,0,0],[0,0,0]], bx=[0,0,0], by=[0,0,0];
+      for(const s of samples){
+        const v=[s.x,s.y,1];
+        for(let i=0;i<3;i++){
+          bx[i]+=v[i]*s.targetX; by[i]+=v[i]*s.targetY;
+          for(let j=0;j<3;j++) ata[i][j]+=v[i]*v[j];
+        }
+      }
+      // Tiny regularisation only on the two feature coefficients helps near-singular samples.
+      ata[0][0]+=1e-5; ata[1][1]+=1e-5;
+      const solve=(mat,vec)=>{
+        const a=mat.map((row,i)=>row.slice().concat(vec[i]));
+        for(let i=0;i<3;i++){
+          let max=i;for(let r=i+1;r<3;r++)if(Math.abs(a[r][i])>Math.abs(a[max][i]))max=r;
+          [a[i],a[max]]=[a[max],a[i]];
+          if(Math.abs(a[i][i])<1e-9)return null;
+          const div=a[i][i];for(let j=i;j<4;j++)a[i][j]/=div;
+          for(let r=0;r<3;r++){if(r===i)continue;const f=a[r][i];for(let j=i;j<4;j++)a[r][j]-=f*a[i][j];}
+        }
+        return a.map(row=>row[3]);
+      };
+      const cx=solve(ata,bx), cy=solve(ata,by); if(!cx||!cy)return null;
+      const model={cx,cy};
+      const errs=samples.map(s=>{const p=predict(model,s.x,s.y);return errorPct(p.x,p.y,s.targetX,s.targetY)});
+      model.rmse=Math.sqrt(mean(errs.map(v=>v*v)));
+      return model;
+    }
+    function predict(model,x,y){return {x:model.cx[0]*x+model.cx[1]*y+model.cx[2],y:model.cy[0]*x+model.cy[1]*y+model.cy[2]};}
+    async function runRound(eye){
+      if(!conn||!conn.open){setStatus('Connect the phone camera before starting.','warn');return;}
+      if(phase==='calibrating'||phase==='test')return;
+      taskRunId++; const myRun=taskRunId; stopped=false; activeEye=eye; calibrationModels[eye]=null; reports[eye]=null; makeStatusRow();
+      $('activeEyeMetric').textContent=eye==='left'?'Left':'Right';
+      updateControls(true,true); $('progressBar').style.width='0%';
+      safeSend(conn,{type:'set-eye',eye}); await delay(200);
+      const cal=[]; phase='calibrating'; setStatus('Calibration started for '+eye+' eye. Follow each target with only the selected eye if possible.');
+      for(let i=0;i<calibrationPoints.length;i++){
+        if(stopped||myRun!==taskRunId)return;
+        const p=calibrationPoints[i]; showTarget(p,'CALIBRATION · '+p.name);
+        $('progressBar').style.width=((i/calibrationPoints.length)*45)+'%';
+        collecting=null; await delay(450);
+        const bucket=[]; collecting={type:'calibration',runId:myRun,target:p,after:performance.now(),samples:bucket,errors:[]};
+        await delay(650); collecting=null;
+        const good=bucket.filter(s=>Number.isFinite(s.x)&&Number.isFinite(s.y));
+        if(good.length>=2) cal.push({x:mean(good.map(s=>s.x)),y:mean(good.map(s=>s.y)),targetX:p.x,targetY:p.y});
+        setStatus(`Calibrating ${eye} eye: ${i+1}/${calibrationPoints.length} positions captured (${good.length} samples at this point).`);
+      }
+      if(stopped||myRun!==taskRunId)return;
+      if(cal.length<6){phase='idle';setStatus(`Calibration failed: only ${cal.length}/9 positions produced enough samples. Improve focus/ROI and retry.`,'error'); updateControls(true,false); showTarget({x:.5,y:.5,name:'Centre'},'Calibration failed');return;}
+      const model=fitAffine(cal);
+      if(!model){phase='idle';setStatus('Calibration could not fit a stable mapping. Redraw the eye region and retry.','error');updateControls(true,false);return;}
+      calibrationModels[eye]=model;
+      const calError=model.rmse;
+      phase='test'; setStatus(`Calibration completed for ${eye} eye. Now follow each target during the tracking task.`,'ok');
+      const errors=[]; let sampleCount=0; let samplesWithoutTracking=0;
+      for(let i=0;i<testPoints.length;i++){
+        if(stopped||myRun!==taskRunId)return;
+        const p=testPoints[i]; showTarget(p,'TRACKING · '+p.name); setEstimate(.5,.5,true);
+        $('progressBar').style.width=(45+(i/testPoints.length)*55)+'%';
+        collecting=null; await delay(400);
+        const bucket=[]; collecting={type:'test',runId:myRun,target:p,after:performance.now(),samples:bucket,errors:[]};
+        await delay(600); const c=collecting; collecting=null;
+        if(c){ sampleCount+=c.samples.length; errors.push(...c.errors); if(!c.samples.length)samplesWithoutTracking++; }
+        setStatus(`Tracking ${eye} eye: ${i+1}/${testPoints.length} positions completed.`);
+      }
+      if(stopped||myRun!==taskRunId)return;
+      phase='complete'; $('progressBar').style.width='100%'; showTarget({x:.5,y:.5,name:'Centre'},'ROUND COMPLETE');
+      const trackingError=errors.length?Math.sqrt(mean(errors.map(v=>v*v))):NaN;
+      const status=(Number.isFinite(trackingError)&&sampleCount>=10&&calError<15)?'Review data':'Low/uncertain quality';
+      reports[eye]={eye,calibrationError:calError,trackingError,validSamples:sampleCount,status,positionsCaptured:cal.length,positionsWithoutTracking:samplesWithoutTracking};
+      makeStatusRow();
+      setStatus(`${eye==='left'?'Left':'Right'} eye round complete. Tracking error is a camera/target disagreement metric, not a clinical finding.`, 'ok');
+      updateControls(true,false);
+      safeSend(conn,{type:'round-complete',eye,calibrationError:calError,trackingError,validSamples:sampleCount,status});
+    }
+    function stopCurrent(sendStop){
+      if(phase!=='calibrating'&&phase!=='test') return;
+      stopped=true;taskRunId++;collecting=null;phase='idle';
+      if(sendStop)safeSend(conn,{type:'stop-round'});
+      setStatus('Round stopped. Start again when ready.','warn');updateControls(!!(conn&&conn.open),false);$('progressBar').style.width='0%';
+    }
+    updateControls(false,false); setEstimate(.5,.5,false);
+    window.addEventListener('beforeunload',()=>{try{peer&&peer.destroy()}catch(e){}});
+  }
+
+  // --------------------------- PHONE / CAMERA ---------------------------
+  function initPhone(){
+    if (!window.Peer) {$('phoneConnectionStatus').textContent='Connection library did not load. Check internet and refresh.';return;}
+    const video=$('cameraVideo'), overlay=$('cameraOverlay'), ctx=overlay.getContext('2d');
+    const proc=document.createElement('canvas'), pctx=proc.getContext('2d',{willReadFrequently:true});
+    let stream=null, peer=null, conn=null, loopTimer=null, activeEye='left', roi={x:.22,y:.18,w:.56,h:.64}, dragging=false, dragStart=null, dragEnd=null;
+    let latestDetection=null, frameCount=0, noPupilCount=0, lastSend=0, pendingDeviceId='';
+    function phoneStatus(text,cls=''){ $('cameraStatus').className='status '+cls; $('cameraStatus').textContent=text; }
+    function connStatus(text,cls=''){ $('phoneConnectionStatus').className='status '+cls; $('phoneConnectionStatus').textContent=text; }
+    function send(o){safeSend(conn,o);}
+    function fitOverlay(){
+      if(!video.videoWidth||!video.videoHeight)return;
+      overlay.width=video.videoWidth;overlay.height=video.videoHeight;
+      overlay.style.width='100%';overlay.style.height='100%';
+      drawOverlay();
+    }
+    function drawOverlay(){
+      if(!overlay.width||!overlay.height)return;
+      ctx.clearRect(0,0,overlay.width,overlay.height);
+      const x=roi.x*overlay.width,y=roi.y*overlay.height,w=roi.w*overlay.width,h=roi.h*overlay.height;
+      ctx.save();ctx.lineWidth=Math.max(2,overlay.width/320*2);ctx.strokeStyle='#68e49a';ctx.fillStyle='#68e49a22';ctx.fillRect(x,y,w,h);ctx.strokeRect(x,y,w,h);
+      ctx.font=`${Math.max(12,overlay.width/45)}px sans-serif`;ctx.fillStyle='#68e49a';ctx.fillText('EYE ROI',x+4,Math.max(16,y-6));ctx.restore();
+      if(latestDetection && latestDetection.valid){
+        const px=(roi.x+latestDetection.x*roi.w)*overlay.width,py=(roi.y+latestDetection.y*roi.h)*overlay.height;
+        ctx.save();ctx.strokeStyle='#38ddf5';ctx.fillStyle='#38ddf5';ctx.lineWidth=Math.max(2,overlay.width/320*2);const r=Math.max(6,overlay.width/70);ctx.beginPath();ctx.arc(px,py,r,0,Math.PI*2);ctx.stroke();ctx.beginPath();ctx.moveTo(px-r*1.6,py);ctx.lineTo(px+r*1.6,py);ctx.moveTo(px,py-r*1.6);ctx.lineTo(px,py+r*1.6);ctx.stroke();ctx.restore();
+      }
+      if(dragging&&dragStart&&dragEnd){ctx.save();ctx.strokeStyle='#ffd166';ctx.lineWidth=3;ctx.setLineDash([6,4]);ctx.strokeRect(Math.min(dragStart.x,dragEnd.x),Math.min(dragStart.y,dragEnd.y),Math.abs(dragStart.x-dragEnd.x),Math.abs(dragStart.y-dragEnd.y));ctx.restore();}
+    }
+    overlay.addEventListener('pointerdown',e=>{
+      if(!stream||!overlay.width)return;const r=overlay.getBoundingClientRect();
+      const sx=(e.clientX-r.left)/r.width*overlay.width, sy=(e.clientY-r.top)/r.height*overlay.height;
+      dragging=true;dragStart={x:clamp(sx,0,overlay.width),y:clamp(sy,0,overlay.height)};dragEnd={...dragStart};overlay.setPointerCapture(e.pointerId);drawOverlay();
+    });
+    overlay.addEventListener('pointermove',e=>{
+      if(!dragging)return;const r=overlay.getBoundingClientRect();dragEnd={x:clamp((e.clientX-r.left)/r.width*overlay.width,0,overlay.width),y:clamp((e.clientY-r.top)/r.height*overlay.height,0,overlay.height)};drawOverlay();
+    });
+    overlay.addEventListener('pointerup',e=>{
+      if(!dragging||!dragStart||!dragEnd)return;dragging=false;
+      const x1=Math.min(dragStart.x,dragEnd.x),x2=Math.max(dragStart.x,dragEnd.x),y1=Math.min(dragStart.y,dragEnd.y),y2=Math.max(dragStart.y,dragEnd.y);
+      if(x2-x1>20&&y2-y1>20){roi={x:x1/overlay.width,y:y1/overlay.height,w:(x2-x1)/overlay.width,h:(y2-y1)/overlay.height};latestDetection=null;phoneStatus('Eye region updated. Tune threshold until the cyan crosshair follows the pupil.','ok');send({type:'phone-status',status:'roi-set'});}
+      dragStart=dragEnd=null;drawOverlay();
+    });
+    $('thresholdSlider').addEventListener('input',()=>{$('thresholdValue').textContent=$('thresholdSlider').value;});
+    $('processingSlider').addEventListener('input',()=>{$('processingValue').textContent=$('processingSlider').value+' ms';if(stream)startTrackingLoop();});
+
+    async function enumerateCameras(){
+      try{
+        const devices=await navigator.mediaDevices.enumerateDevices();const cams=devices.filter(d=>d.kind==='videoinput');const select=$('cameraSelect');const chosen=select.value;select.innerHTML='<option value="">Automatic rear camera selection</option>';
+        cams.forEach((d,i)=>{const op=document.createElement('option');op.value=d.deviceId;op.textContent=d.label||('Camera '+(i+1));select.appendChild(op);});
+        if(chosen&&[...select.options].some(o=>o.value===chosen))select.value=chosen;
+      }catch(e){}
+    }
+    async function startCamera(){
+      stopCamera(false);
+      if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){phoneStatus('Camera access is unavailable in this browser. Open the HTTPS GitHub Pages URL in Chrome.','error');return;}
+      try{
+        const id=$('cameraSelect').value;
+        const videoConstraint=id?{deviceId:{exact:id},width:{ideal:1280},height:{ideal:720}}:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}};
+        stream=await navigator.mediaDevices.getUserMedia({video:videoConstraint,audio:false});
+        video.srcObject=stream;await video.play();$('cameraPlaceholder').classList.add('hidden');$('startCameraBtn').disabled=true;$('stopCameraBtn').disabled=false;
+        await enumerateCameras();fitOverlay();phoneStatus(`Camera running (${video.videoWidth} × ${video.videoHeight}). Draw a box around the pupil/iris.`,'ok');send({type:'phone-status',status:'camera-on'});startTrackingLoop();
+      }catch(e){console.error(e);phoneStatus('Could not start camera: '+(e.name||'error')+' — '+(e.message||'check camera permission and close other camera apps.'),'error');}
+    }
+    function stopCamera(sendStatus=true){
+      if(loopTimer){clearTimeout(loopTimer);loopTimer=null;}if(stream){stream.getTracks().forEach(t=>t.stop());stream=null;}
+      video.srcObject=null;$('startCameraBtn').disabled=false;$('stopCameraBtn').disabled=true;$('cameraPlaceholder').classList.remove('hidden');ctx.clearRect(0,0,overlay.width||1,overlay.height||1);latestDetection=null;$('pupilStatusMetric').textContent='No';$('qualityMetric').textContent='—';
+      if(sendStatus){phoneStatus('Camera stopped.');send({type:'phone-status',status:'camera-off'});}
+    }
+    $('startCameraBtn').addEventListener('click',startCamera);$('stopCameraBtn').addEventListener('click',()=>stopCamera(true));
+    $('cameraSelect').addEventListener('change',()=>{if(stream)startCamera();});
+
+    function detectDarkComponent(imageData,w,h,threshold){
+      const data=imageData.data,n=w*h,gray=new Uint8Array(n),mask=new Uint8Array(n),visited=new Uint8Array(n);
+      let p=0;for(let i=0;i<n;i++,p+=4){gray[i]=(data[p]*0.299+data[p+1]*0.587+data[p+2]*0.114)|0;}
+      // Fixed adjustable threshold is more understandable for a manually chosen, tightly drawn pupil ROI.
+      let dark=0;for(let i=0;i<n;i++){if(gray[i]<threshold){mask[i]=1;dark++;}}
+      if(dark<4||dark>n*.75)return null;
+      const qx=new Int32Array(n),qy=new Int32Array(n);let best=null,bestScore=-Infinity;
+      for(let i=0;i<n;i++){
+        if(!mask[i]||visited[i])continue;
+        let head=0,tail=0;qx[tail]=i;tail++;visited[i]=1;
+        let area=0,sx=0,sy=0,minX=w,maxX=0,minY=h,maxY=0,perim=0;
+        while(head<tail){const k=qx[head++],x=k%w,y=(k/w)|0;area++;sx+=x;sy+=y;if(x<minX)minX=x;if(x>maxX)maxX=x;if(y<minY)minY=y;if(y>maxY)maxY=y;
+          const ns=[x>0?k-1:-1,x<w-1?k+1:-1,y>0?k-w:-1,y<h-1?k+w:-1];
+          for(let z=0;z<4;z++){const ni=ns[z];if(ni<0||!mask[ni])perim++;else if(!visited[ni]){visited[ni]=1;qx[tail++]=ni;}}
+        }
+        const bw=maxX-minX+1,bh=maxY-minY+1,ar=area/n,aspect=bw/Math.max(1,bh),roundness=Math.min(1,(4*Math.PI*area)/(perim*perim+1));
+        if(area<Math.max(5,n*.0015)||ar>0.32||aspect<0.30||aspect>3.2)continue;
+        // Prefer round-ish components, and mildly prefer components closer to the ROI centre.
+        const cx=sx/area,cy=sy/area,dist=Math.hypot((cx-w/2)/(w/2),(cy-h/2)/(h/2));
+        const score=(Math.log(area+1)*(0.35+roundness))*Math.exp(-0.55*dist);
+        if(score>bestScore){bestScore=score;best={x:cx/Math.max(1,w-1),y:cy/Math.max(1,h-1),area,roundness,score:clamp((roundness*.65+Math.min(1,ar*10)*.35),0,1),bbox:{minX,minY,maxX,maxY}};}
+      }
+      return best;
+    }
+    function startTrackingLoop(){
+      if(loopTimer)clearTimeout(loopTimer);
+      const tick=()=>{
+        if(!stream||!video.videoWidth){loopTimer=setTimeout(tick,180);return;}
+        const maxDim=320,scale=Math.min(maxDim/video.videoWidth,maxDim/video.videoHeight);const w=Math.max(1,Math.round(video.videoWidth*scale)),h=Math.max(1,Math.round(video.videoHeight*scale));
+        if(proc.width!==w||proc.height!==h){proc.width=w;proc.height=h;}
+        pctx.drawImage(video,0,0,w,h);
+        const rx=clamp(Math.round(roi.x*w),0,w-1),ry=clamp(Math.round(roi.y*h),0,h-1),rw=clamp(Math.round(roi.w*w),1,w-rx),rh=clamp(Math.round(roi.h*h),1,h-ry);
+        let candidate=null;
+        try{candidate=detectDarkComponent(pctx.getImageData(rx,ry,rw,rh),rw,rh,Number($('thresholdSlider').value));}catch(e){}
+        if(candidate){latestDetection={valid:true,x:candidate.x,y:candidate.y,score:candidate.score};noPupilCount=0;$('pupilStatusMetric').textContent='Yes';$('qualityMetric').textContent=Math.round(candidate.score*100)+'%*';}
+        else{latestDetection={valid:false};noPupilCount++;$('pupilStatusMetric').textContent='No';$('qualityMetric').textContent='—';}
+        frameCount++;drawOverlay();
+        const now=performance.now();if(now-lastSend>Number($('processingSlider').value)){
+          lastSend=now;
+          if(candidate){send({type:'gaze',eye:activeEye,x:candidate.x,y:candidate.y,score:candidate.score,valid:true,deviceTimestamp:Date.now()});}
+          else {send({type:'gaze',eye:activeEye,valid:false,score:0,deviceTimestamp:Date.now()});}
+        }
+        loopTimer=setTimeout(tick,Math.max(75,Number($('processingSlider').value)));
+      };
+      tick();
+    }
+
+    function connectToTablet(){
+      const id=$('tabletCodeInput').value.trim();if(!id){connStatus('Enter the tablet connection code first.','warn');return;}
+      if(peer){try{peer.destroy()}catch(e){}}
+      try{
+        peer=new Peer();
+        connStatus('Contacting connection service…');
+        peer.on('open',()=>{
+          conn=peer.connect(id,{reliable:true});
+          connStatus('Connecting to tablet…');
+          conn.on('open',()=>{connStatus('Connected to tablet. Start the camera and keep this page open.','ok');$('connectPhoneBtn').disabled=true;$('disconnectPhoneBtn').disabled=false;send({type:'phone-status',status:stream?'camera-on':'camera-off'});});
+          conn.on('data',msg=>{
+            if(!msg||typeof msg!=='object')return;
+            if(msg.type==='tablet-ready')$('remoteRoundStatus').textContent=msg.message||'Tablet ready.';
+            if(msg.type==='set-eye'){activeEye=msg.eye==='right'?'right':'left';$('phoneEyeMetric').textContent=activeEye==='left'?'Left':'Right';$('remoteRoundStatus').textContent='Selected round: '+activeEye+' eye. Follow the target on the tablet.';}
+            if(msg.type==='target')$('remoteRoundStatus').textContent=(msg.phase||'task')+': '+(msg.label||'follow the target');
+            if(msg.type==='round-complete')$('remoteRoundStatus').textContent=(msg.eye||'Eye')+' round complete. You can switch eyes on the tablet.';
+            if(msg.type==='stop-round')$('remoteRoundStatus').textContent='Round stopped from the tablet.';
+          });
+          conn.on('close',()=>{conn=null;$('connectPhoneBtn').disabled=false;$('disconnectPhoneBtn').disabled=true;connStatus('Disconnected from tablet.','warn');});
+          conn.on('error',e=>{console.error(e);connStatus('Data connection error. Check the code and network.','error');});
+        });
+        peer.on('error',e=>{console.error(e);connStatus('Connection error: '+(e.type||e.message||'unknown')+'. Reload and retry.','error');$('connectPhoneBtn').disabled=false;});
+      }catch(e){connStatus('Could not connect: '+e.message,'error');}
+    }
+    $('connectPhoneBtn').addEventListener('click',connectToTablet);
+    $('disconnectPhoneBtn').addEventListener('click',()=>{try{conn&&conn.close();peer&&peer.destroy()}catch(e){}conn=null;peer=null;$('connectPhoneBtn').disabled=false;$('disconnectPhoneBtn').disabled=true;connStatus('Disconnected.');});
+    if(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia){navigator.mediaDevices.getUserMedia({video:true,audio:false}).then(s=>{s.getTracks().forEach(t=>t.stop());return enumerateCameras();}).catch(()=>enumerateCameras());}
+    window.addEventListener('beforeunload',()=>{stopCamera(false);try{peer&&peer.destroy()}catch(e){}});
+  }
+})();
+</script>
+</body>
+</html>
